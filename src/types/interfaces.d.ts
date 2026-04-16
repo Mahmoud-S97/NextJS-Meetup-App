@@ -4,6 +4,7 @@ interface MeetupItem {
   title: string;
   image: string;
   description: string;
+  address: string;
   date: string;
 }
 
