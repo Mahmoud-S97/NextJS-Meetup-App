@@ -1,11 +1,11 @@
 interface MeetupItem {
-  index: number;
   id: number;
   title: string;
   image: string;
-  description: string;
   address: string;
   date: string;
+  description: string;
+  createdAt: string;
 }
 
 interface MeetUpsList {

@@ -1,23 +1,20 @@
 "use client";
-import React, { useRef, useActionState } from "react";
+import React, { useActionState } from "react";
 import { addNewMeetupAction } from "@/services/forms/actions";
 import { classes } from "@/utils/classes";
 
-const initialState: Pick<
-  MeetupItem,
-  "title" | "image" | "address" | "description"
-> = {
+const initialState: Omit<MeetupItem, "id" | "createdAt"> = {
   title: "",
   image: "",
   address: "",
+  date: "",
   description: "",
 };
 
 const MeetupForm = () => {
-  const [state, formAction, pending] = useActionState(
-    addNewMeetupAction,
-    initialState,
-  );
+  const [state, formAction, pending] = useActionState(addNewMeetupAction, {
+    values: initialState,
+  });
 
   return (
     <form
@@ -34,10 +31,16 @@ const MeetupForm = () => {
         <input
           className="w-full h-10 p-4 rounded-2xl border-1 border-gray-800 dark:border-gray-500 focus:outline-(--primary) dark:focus:outline-gray-600"
           type="text"
+          defaultValue={state.values.title}
           name="title"
           id="meetup-title"
           required
         />
+        {state.errors?.title && (
+          <p className="text-start text-red-400 text-sm font-[600]">
+            {state.errors?.title[0]}
+          </p>
+        )}
       </div>
       <div className="w-full flex flex-col gap-2">
         <label
@@ -49,10 +52,16 @@ const MeetupForm = () => {
         <input
           className="w-full h-10 p-4 rounded-2xl border-1 border-gray-800 dark:border-gray-500 focus:outline-(--primary) dark:focus:outline-gray-600"
           type="text"
+          defaultValue={state.values.image}
           name="image"
           id="meetup-image"
           required
         />
+        {state.errors?.image && (
+          <p className="text-start text-red-400 text-sm font-[600]">
+            {state.errors?.image[0]}
+          </p>
+        )}
       </div>
       <div className="w-full flex flex-col gap-2">
         <label
@@ -64,10 +73,37 @@ const MeetupForm = () => {
         <input
           className="w-full h-10 p-4 rounded-2xl border-1 border-gray-800 dark:border-gray-500 focus:outline-(--primary) dark:focus:outline-gray-600"
           type="text"
+          defaultValue={state.values.address}
           name="address"
           id="address"
           required
         />
+        {state.errors?.address && (
+          <p className="text-start text-red-400 text-sm font-[600]">
+            {state.errors?.address[0]}
+          </p>
+        )}
+      </div>
+      <label
+        htmlFor="date"
+        className="text-start text-gray-800 dark:text-gray-400 font-semibold"
+      >
+        Select Date
+      </label>
+      <div className="w-full flex flex-col gap-2">
+        <input
+          className="w-full h-10 p-4 rounded-2xl border-1 border-gray-800 dark:border-gray-500 focus:outline-(--primary) dark:focus:outline-gray-600 [color-scheme:light] dark:[color-scheme:dark]"
+          type="date"
+          id="date"
+          name="date"
+          min={new Date().toISOString().split("T")[0]}
+          required
+        />
+        {state.errors?.date && (
+          <p className="text-start text-red-400 text-sm font-[600]">
+            {state.errors?.date[0]}
+          </p>
+        )}
       </div>
       <div className="w-full flex flex-col gap-2">
         <label
@@ -80,11 +116,23 @@ const MeetupForm = () => {
           className="w-full h-28 p-4 rounded-2xl border-1 border-gray-800 dark:border-gray-500 focus:outline-(--primary) dark:focus:outline-gray-600"
           name="description"
           id="description"
+          defaultValue={state.values.description}
           rows={5}
           required
         ></textarea>
+        {state.errors?.description && (
+          <p className="text-start text-red-400 text-sm font-[600]">
+            {state.errors?.description[0]}
+          </p>
+        )}
       </div>
+      {state.data?.message && (
+        <h3 className="text-center my-1 text-green-500 font-semibold">
+          {state.data?.message}
+        </h3>
+      )}
       <button
+        type="submit"
         disabled={pending}
         className={classes(
           "text-sm text-white font-semibold dark:text-gray-200 mt-4 px-6 py-2 cursor-pointer flex self-end rounded-2xl transition bg-(--primary) hover:bg-(--primary)/80 border-1 border-gray-600 dark:border-gray-500",
