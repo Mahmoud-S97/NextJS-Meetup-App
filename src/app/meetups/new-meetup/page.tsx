@@ -1,5 +1,12 @@
 import { JSX } from "react";
+import type { Metadata } from "next";
+
 import MeetupForm from "@/components/meetups/meetup-form";
+
+export const metadata: Metadata = {
+  title: 'Add a New Meetup',
+  description: 'Add your own meetups and create amazing networking opportunities.'
+}
 
 const NewMeetupPage = (): JSX.Element => {
   return (
