@@ -1,6 +1,7 @@
 import { JSX } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { formatDate } from "@/utils";
 
 type MeetupCardProps = {
   id: number;
@@ -45,14 +46,14 @@ const MeetUpCard = ({
             {`📍 ${address}`}
           </p>
           <time className="text-sm font-medium text-gray-500 dark:text-gray-500">
-            {`📅 ${date}`}
+            {date ? `📅 ${formatDate(date)}` : ''}
           </time>
         </div>
         <p className="text-[14px] text-gray-600 dark:text-gray-300/80 leading-relaxed line-clamp-5">
           {description}
         </p>
         <Link
-          href={`/${id}`}
+          href={`/meetups/${id}`}
           className="flex self-end text-sm text-gray-600 dark:text-gray-300/80 mt-3 ease duration-150 hover:bg-gray-200 dark:hover:bg-[#1c1c20] border-1 border-gray-400 dark:border-gray-700 py-2 px-4 rounded-full"
         >
           View Details

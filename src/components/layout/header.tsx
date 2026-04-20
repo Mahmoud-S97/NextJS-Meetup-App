@@ -31,7 +31,7 @@ const Header = (props: any): JSX.Element => {
         >
           <li
             className={classes(
-              "w-full sm:w-auto text-gray-300 inline-block hover:text-gray-50 focus:text-gray-50 text-md font-semibold ease duration-200",
+              "w-full sm:w-auto text-gray-300 relative inline-block hover:text-gray-50 focus:text-gray-50 text-md font-semibold ease duration-200",
               { "text-gray-50 text-shadow-lg": pathName === "/" },
             )}
           >
@@ -46,11 +46,11 @@ const Header = (props: any): JSX.Element => {
           <li
             className={classes(
               "w-full sm:w-auto text-gray-300 inline-block hover:text-gray-50 focus:text-gray-50 text-md font-semibold ease duration-200",
-              { "text-gray-50 text-shadow-lg": pathName.startsWith("/new") },
+              { "text-gray-50 text-shadow-lg": pathName.startsWith("/meetups/new") },
             )}
           >
             <Link
-              href="/new-meetup"
+              href="/meetups/new-meetup"
               className="w-full py-2 sm:py-0 block sm:flex"
               onClick={toggleMenu}
             >

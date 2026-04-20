@@ -1,6 +1,7 @@
 import React, { JSX } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { formatDate } from "@/utils";
 
 const MeetupDetail = ({
   id,
@@ -12,7 +13,7 @@ const MeetupDetail = ({
 }: MeetupItem): JSX.Element => {
   return (
     <section className="w-full sm:max-w-210">
-      <div className="w-full h-78 relative flex justify-center overflow-hidden">
+      <div className="w-full h-110 relative flex justify-center overflow-hidden">
         {image ? (
           <Image
             src={image}
@@ -34,7 +35,7 @@ const MeetupDetail = ({
             {`📍 ${address}`}
           </p>
           <time className="text-sm font-medium text-gray-600 dark:text-gray-500">
-            {`📅 ${date}`}
+            {date ? `📅 ${formatDate(date)}` : ""}
           </time>
         </div>
         <p className="text-md text-gray-700 dark:text-gray-300/80 leading-relaxed">

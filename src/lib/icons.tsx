@@ -3,6 +3,7 @@ import {
   User,
   Settings,
   ArrowRight,
+  ArrowLeft,
   Menu,
   type LucideIcon,
 } from "lucide-react";
@@ -12,6 +13,7 @@ export const icons = {
   user: User,
   settings: Settings,
   arrowRight: ArrowRight,
+  arrowLeft: ArrowLeft,
   menu: Menu,
 };
 

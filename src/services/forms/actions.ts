@@ -74,7 +74,6 @@ const insertMeetupData = async (data: any): Promise<MeetupItem> => {
       createdAt: now.toISOString(),
     };
   } catch (error: any) {
-    console.log("Error: ", error?.message || "Something went wrong");
     throw new Error(error?.message || "Something went wrong!");
   }
 };

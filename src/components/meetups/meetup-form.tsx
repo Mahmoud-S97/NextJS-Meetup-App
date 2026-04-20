@@ -1,7 +1,8 @@
 "use client";
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 import { addNewMeetupAction } from "@/services/forms/actions";
 import { classes } from "@/utils/classes";
+import { redirect } from "next/navigation";
 
 const initialState: Omit<MeetupItem, "id" | "createdAt"> = {
   title: "",
@@ -15,6 +16,14 @@ const MeetupForm = () => {
   const [state, formAction, pending] = useActionState(addNewMeetupAction, {
     values: initialState,
   });
+
+  useEffect(() => {
+    if (!state?.success) return;
+    const timeout = setTimeout(() => {
+      redirect("/");
+    }, 800);
+    return () => clearTimeout(timeout);
+  }, [state]);
 
   return (
     <form
@@ -131,11 +140,16 @@ const MeetupForm = () => {
           {state.data?.message}
         </h3>
       )}
+      {state.success && (
+        <h2 className="text-2xl text-center mt-2 font-semibold text-green-600">
+          Success, redirecting...
+        </h2>
+      )}
       <button
         type="submit"
         disabled={pending}
         className={classes(
-          "text-sm text-white font-semibold dark:text-gray-200 mt-4 px-6 py-2 cursor-pointer flex self-end rounded-2xl transition bg-(--primary) hover:bg-(--primary)/80 border-1 border-gray-600 dark:border-gray-500",
+          "text-sm text-white font-semibold dark:text-gray-200 shadow-xl mt-4 px-6 py-2 cursor-pointer flex self-end rounded-2xl transition bg-(--primary) hover:bg-(--primary)/80 border-1 border-gray-600 dark:border-gray-500",
           { "bg-gray-500 hover:bg-gray-500 dark:bg-gray-500": pending },
         )}
       >
