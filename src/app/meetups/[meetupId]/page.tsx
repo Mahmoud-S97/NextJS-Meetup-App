@@ -38,12 +38,12 @@ const MeetupDetailPage = async ({
 
   const results = await fetchSingleMeetupById(meetupId);
 
-  if (!results.success) {
-    throw new Error(results?.message || "Something went wrong!");
+  if (!results) {
+    return notFound();
   }
 
-  if (results.success && (!results || !results?.data)) {
-    return notFound();
+  if (!results.success) {
+    throw new Error(results?.message || "Something went wrong!");
   }
 
   return (

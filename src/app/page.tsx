@@ -7,12 +7,12 @@ import { fetchMeetups } from "@/services/api/meetups";
 export default async function Home() {
   const results = await fetchMeetups();
 
-  if(!results.success) {
-    throw new Error(results?.message || 'Something went wrong!');
+  if (!results) {
+    return notFound();
   }
 
-  if (results.success && (!results || !results?.data)) {
-    return notFound();
+  if (!results.success) {
+    throw new Error(results?.message || "Something went wrong!");
   }
 
   return (
@@ -20,8 +20,7 @@ export default async function Home() {
       <h1 className="text-center text-(--heading) text-3xl font-bold my-8">
         All Meetups
       </h1>
-      <Suspense
-        fallback={<MeetupsListSkeleton />}>
+      <Suspense fallback={<MeetupsListSkeleton />}>
         <MeetUpList meetupList={results?.data} />
       </Suspense>
     </main>
