@@ -4,19 +4,28 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import MeetupDetail from "@/components/meetups/meetup-detail";
+import { fetchSingleMeetupById } from "@/services/api/meetups";
+import MeetupDetailSkeleton from "@/components/meetups/skeletons/meetup-detail-skeleton";
 
-export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ meetupId: string }>;
+}): Promise<Metadata> => {
   const { meetupId } = await params;
-  const response = await fetch(`http://localhost:3000/api/meetups/${meetupId}`);
-  const meetup = await response.json();
+  const results = await fetchSingleMeetupById(meetupId);
 
-  if (!response.ok || !meetup?.success || !meetup?.data) {
+  if (!results.success) {
+    throw new Error(results?.message || "Something went wrong!");
+  }
+
+  if (results.success && (!results || !results?.data)) {
     return notFound();
   }
 
   return {
-    title: meetup.data?.title,
-    description: meetup.data?.description,
+    title: results.data?.title,
+    description: results.data?.description,
   };
 };
 
@@ -27,23 +36,20 @@ const MeetupDetailPage = async ({
 }) => {
   const { meetupId } = await params;
 
-  const response = await fetch(`http://localhost:3000/api/meetups/${meetupId}`);
-  const meetup = await response.json();
+  const results = await fetchSingleMeetupById(meetupId);
 
-  if (!response.ok || !meetup?.success || !meetup?.data) {
+  if (!results.success) {
+    throw new Error(results?.message || "Something went wrong!");
+  }
+
+  if (results.success && (!results || !results?.data)) {
     return notFound();
   }
 
   return (
     <main className="w-full h-full flex flex-col items-center py-20">
-      <Suspense
-        fallback={
-          <p className="text-3xl text-center font-bold mt-18">
-            Loading Meetup...
-          </p>
-        }
-      >
-        <MeetupDetail {...meetup?.data} />
+      <Suspense fallback={<MeetupDetailSkeleton />}>
+        <MeetupDetail {...results?.data} />
       </Suspense>
     </main>
   );

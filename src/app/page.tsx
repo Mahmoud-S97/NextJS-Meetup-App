@@ -2,15 +2,16 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import MeetUpList from "@/components/meetups/meetup-list";
 import MeetupsListSkeleton from "@/components/meetups/skeletons/meetup-list-skeleton";
+import { fetchMeetups } from "@/services/api/meetups";
 
 export default async function Home() {
-  const response = await fetch("http://localhost:3000/api/meetups", {
-    cache: "no-store",
-  });
-  const results = await response.json();
-  const meetups = results.data;
+  const results = await fetchMeetups();
 
-  if (!response.ok || !results?.success || !results?.data) {
+  if(!results.success) {
+    throw new Error(results?.message || 'Something went wrong!');
+  }
+
+  if (results.success && (!results || !results?.data)) {
     return notFound();
   }
 
@@ -21,9 +22,8 @@ export default async function Home() {
       </h1>
       <Suspense
         fallback={<MeetupsListSkeleton />}>
-        <MeetUpList meetupList={meetups} />
+        <MeetUpList meetupList={results?.data} />
       </Suspense>
-      
     </main>
   );
 }

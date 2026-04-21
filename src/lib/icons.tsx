@@ -5,6 +5,7 @@ import {
   ArrowRight,
   ArrowLeft,
   Menu,
+  IterationCw,
   type LucideIcon,
 } from "lucide-react";
 
@@ -15,6 +16,7 @@ export const icons = {
   arrowRight: ArrowRight,
   arrowLeft: ArrowLeft,
   menu: Menu,
+  iterationCw: IterationCw
 };
 
 export type IconName = keyof typeof icons;

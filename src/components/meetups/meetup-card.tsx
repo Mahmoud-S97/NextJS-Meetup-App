@@ -41,7 +41,7 @@ const MeetUpCard = ({
         </div>
       </div>
       <div className="p-4 flex flex-col gap-1 text-start">
-        <div className="flex flex-row items-center justify-start gap-3 mb-2 -ml-[6px]">
+        <div className="flex flex-col items-start justify-center sm:flex-row sm:items-center sm:justify-start gap-3 mb-2 -ml-[6px]">
           <p className="text-md text-gray-600 dark:text-gray-300/80">
             {`📍 ${address}`}
           </p>

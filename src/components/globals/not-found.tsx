@@ -8,7 +8,7 @@ const NotFound = ({ message }: { message?: string }) => {
       {message && <p className="text-md dark:text-gray-400">{message}</p>}
       <Link
         href="/"
-        className="flex flex-row items-center justify-center text-gray-100 dark:text-gray-300 shadow-xl rounded-full gap-2 py-2 px-4 mt-2 bg-(--primary)"
+        className="flex flex-row items-center justify-center text-gray-100 dark:text-gray-300 shadow-xl rounded-full gap-2 py-2 px-4 mt-2 bg-(--primary) hover:bg-(--primary)/80 transition"
       >
         <Icon name="arrowLeft" className="text-gray-100 dark:text-gray-300" />
         Go Back Home

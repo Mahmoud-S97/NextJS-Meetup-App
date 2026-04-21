@@ -13,7 +13,7 @@ const MeetupDetail = ({
 }: MeetupItem): JSX.Element => {
   return (
     <section className="w-full sm:max-w-210">
-      <div className="w-full h-110 relative flex justify-center overflow-hidden">
+      <div className="w-full h-90 sm:h-110 relative flex justify-center overflow-hidden">
         {image ? (
           <Image
             src={image}
