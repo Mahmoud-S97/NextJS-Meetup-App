@@ -3,6 +3,8 @@ import React, { useActionState, useEffect } from "react";
 import { addNewMeetupAction } from "@/services/forms/actions";
 import { classes } from "@/utils/classes";
 import { redirect } from "next/navigation";
+import Icon from "../globals/app-icon";
+import ImagePicker from "../globals/image-picker";
 
 const initialState: Omit<MeetupItem, "id" | "createdAt"> = {
   title: "",
@@ -58,14 +60,7 @@ const MeetupForm = () => {
         >
           Meetup Image
         </label>
-        <input
-          className="w-full h-10 p-4 rounded-2xl border-1 border-gray-800 dark:border-gray-500 focus:outline-(--primary) dark:focus:outline-gray-600"
-          type="text"
-          defaultValue={state.values.image}
-          name="image"
-          id="meetup-image"
-          required
-        />
+        <ImagePicker />
         {state.errors?.image && (
           <p className="text-start text-red-400 text-sm font-[600]">
             {state.errors?.image[0]}
@@ -149,7 +144,7 @@ const MeetupForm = () => {
         type="submit"
         disabled={pending}
         className={classes(
-          "text-sm text-white font-semibold dark:text-gray-200 shadow-xl mt-4 px-6 py-2 cursor-pointer flex self-end rounded-2xl transition bg-(--primary) hover:bg-(--primary)/80 border-1 border-gray-600 dark:border-gray-500",
+          "text-sm text-white font-semibold dark:text-gray-200 shadow-xl mt-4 px-6 py-2 cursor-pointer flex self-end rounded-2xl transition bg-(--primary) hover:bg-(--primary)/80 focus:outline-(--primary) dark:focus:outline-gray-600 border-1 border-gray-600 dark:border-gray-500",
           { "bg-gray-500 hover:bg-gray-500 dark:bg-gray-500": pending },
         )}
       >

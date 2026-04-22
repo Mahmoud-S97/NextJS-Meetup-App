@@ -1,14 +1,5 @@
 import * as z from "zod";
 
-const isValidURL = (val: string): boolean => {
-  try {
-    new URL(val);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
 const isValidDate = (inputDate: string | Date): boolean => {
   const date = new Date(inputDate);
   if (isNaN(date.getTime())) return false;
@@ -19,16 +10,20 @@ const isValidDate = (inputDate: string | Date): boolean => {
   return date.getTime() >= today.getTime();
 };
 
+const imageFileSchema = z
+  .any()
+  .refine((file) => file instanceof File, "Image is required")
+  .refine((file) => file?.size > 0, "Image cannot be empty")
+  .refine((file) => file?.type?.startsWith("image/"), "File must be an image")
+  .refine((file) => file?.size <= 2 * 1024 * 1024, "Max file size is 2MB");
+
 export const formSchema = z.object({
   title: z
     .string()
     .trim()
     .min(2, "Title is too short!.")
     .max(50, "Title should be 50 characters maximum!."),
-  image: z
-    .string()
-    .trim()
-    .refine(isValidURL, { message: "Please enter a valid image URL." }),
+  image: imageFileSchema,
   address: z
     .string()
     .trim()

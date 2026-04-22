@@ -7,9 +7,9 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: 'fastly.picsum.photos',
+        hostname: `${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_S3_REGION}.amazonaws.com`,
         port: "",
-        pathname: "/id/**",
+        pathname: "/**",
       },
     ],
   },

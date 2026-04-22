@@ -1,5 +1,6 @@
 "use server";
 
+import { generateImageURL } from "../aws/s3";
 import clientPromise from "../database/mongodb";
 import { formSchema } from "./formSchema";
 
@@ -16,14 +17,14 @@ export const addNewMeetupAction = async (
   formData: FormData,
 ): Promise<any> => {
   const enteredTitle = formData.get("title") as string;
-  const enteredImageUrl = formData.get("image") as string;
+  const enteredImage = formData.get("image") as File;
   const enteredAddress = formData.get("address") as string;
   const enteredDate = formData.get("date") as string;
   const enteredDescription = formData.get("description") as string;
 
   const data = {
     title: String(enteredTitle || ""),
-    image: String(enteredImageUrl || ""),
+    image: enteredImage || {},
     address: String(enteredAddress || ""),
     date: String(enteredDate || ""),
     description: String(enteredDescription || ""),
@@ -33,14 +34,17 @@ export const addNewMeetupAction = async (
 
   if (!results.success) {
     const errors = results.error.flatten();
+    const imageName = data.image?.name || "";
     return {
       success: false,
       errors: {
         ...errors?.fieldErrors,
       },
-      values: data,
+      values: { ...data, image: imageName },
     };
   }
+
+  const validImageName = results.data.image.name;
 
   const validData = results.data;
 
@@ -49,7 +53,7 @@ export const addNewMeetupAction = async (
   return {
     success: true,
     values: initialState,
-    data: savedData,
+    data: { ...savedData, image: validImageName },
   };
 };
 
@@ -60,8 +64,11 @@ const insertMeetupData = async (data: any): Promise<MeetupItem> => {
 
     const now = new Date();
 
+    const imageURL = await generateImageURL(data.image, data.title);
+
     const newMeetup = {
       ...data,
+      image: imageURL,
       createdAt: now,
     };
 
@@ -71,6 +78,7 @@ const insertMeetupData = async (data: any): Promise<MeetupItem> => {
     return {
       id: insertResult.insertedId.toString(),
       ...data,
+      image: imageURL,
       createdAt: now.toISOString(),
     };
   } catch (error: any) {

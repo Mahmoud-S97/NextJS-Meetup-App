@@ -4,6 +4,8 @@ import {
   Settings,
   ArrowRight,
   ArrowLeft,
+  ArrowUp,
+  Upload,
   Menu,
   IterationCw,
   type LucideIcon,
@@ -15,6 +17,8 @@ export const icons = {
   settings: Settings,
   arrowRight: ArrowRight,
   arrowLeft: ArrowLeft,
+  arrowUp: ArrowUp,
+  upload: Upload,
   menu: Menu,
   iterationCw: IterationCw
 };

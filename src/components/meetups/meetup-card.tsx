@@ -46,7 +46,7 @@ const MeetUpCard = ({
             {`📍 ${address}`}
           </p>
           <time className="text-sm font-medium text-gray-500 dark:text-gray-500">
-            {date ? `📅 ${formatDate(date)}` : ''}
+            {date ? `📅 ${formatDate(date)}` : ""}
           </time>
         </div>
         <p className="text-[14px] text-gray-600 dark:text-gray-300/80 leading-relaxed line-clamp-5">
