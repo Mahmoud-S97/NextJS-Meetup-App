@@ -1,5 +1,6 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import slugify from "slugify";
+import xss from "xss";
 
 const s3 = new S3Client({
   region: process.env.AWS_S3_REGION!,

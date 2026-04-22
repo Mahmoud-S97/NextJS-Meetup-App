@@ -4,7 +4,7 @@ import Link from "next/link";
 import { formatDate } from "@/utils";
 
 type MeetupCardProps = {
-  id: number;
+  id: string;
   title?: string;
   image?: string;
   description?: string;

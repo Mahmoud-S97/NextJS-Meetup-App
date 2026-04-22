@@ -1,5 +1,5 @@
 interface MeetupItem {
-  id: number;
+  id: string;
   title: string;
   image: string;
   address: string;

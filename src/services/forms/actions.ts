@@ -1,5 +1,6 @@
 "use server";
 
+import xss from "xss";
 import { generateImageURL } from "../aws/s3";
 import clientPromise from "../database/mongodb";
 import { formSchema } from "./formSchema";
@@ -64,21 +65,28 @@ const insertMeetupData = async (data: any): Promise<MeetupItem> => {
 
     const now = new Date();
 
-    const imageURL = await generateImageURL(data.image, data.title);
+    const sanitized_title = xss(data.title);
+
+    const imageURL = await generateImageURL(data.image, sanitized_title);
+
+    const sanitized_address = xss(data.address);
+    const sanitized_description = xss(data.description);
 
     const newMeetup = {
-      ...data,
+      title: sanitized_title,
       image: imageURL,
+      address: sanitized_address,
+      date: data.date,
+      description: sanitized_description,
       createdAt: now,
     };
 
     const meetupsCollection = db.collection("meetups");
-    const insertResult = await meetupsCollection.insertOne(newMeetup);
+    const insertResult = await meetupsCollection.insertOne({ ...newMeetup });
 
     return {
       id: insertResult.insertedId.toString(),
-      ...data,
-      image: imageURL,
+      ...newMeetup,
       createdAt: now.toISOString(),
     };
   } catch (error: any) {
