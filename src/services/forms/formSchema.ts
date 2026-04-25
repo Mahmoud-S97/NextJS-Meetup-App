@@ -29,9 +29,12 @@ export const formSchema = z.object({
     .trim()
     .min(5, "Address is too short!.")
     .max(60, "Address should be 60 characters maximum!."),
-  date: z.coerce.date().refine(isValidDate, {
-    message: "Date must be today or later.",
-  }),
+  date: z
+    .string()
+    .transform((val: string) => new Date(val))
+    .refine(isValidDate, {
+      message: "Date must be today or later.",
+    }),
   description: z
     .string()
     .trim()

@@ -19,6 +19,11 @@ const MeetupForm = () => {
     values: initialState,
   });
 
+  const now = new Date();
+  const localISOTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 16);
+
   useEffect(() => {
     if (!state?.success) return;
     const timeout = setTimeout(() => {
@@ -97,10 +102,10 @@ const MeetupForm = () => {
       <div className="w-full flex flex-col gap-2">
         <input
           className="w-full h-10 p-4 rounded-2xl border-1 border-gray-800 dark:border-gray-500 focus:outline-(--primary) dark:focus:outline-gray-600 [color-scheme:light] dark:[color-scheme:dark]"
-          type="date"
+          type="datetime-local"
           id="date"
           name="date"
-          min={new Date().toISOString().split("T")[0]}
+          min={localISOTime}
           required
         />
         {state.errors?.date && (

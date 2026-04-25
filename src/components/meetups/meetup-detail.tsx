@@ -22,6 +22,7 @@ const MeetupDetail = ({
             fill
             sizes="width=800, height=500"
             className="object-cover"
+            unoptimized
           />
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />

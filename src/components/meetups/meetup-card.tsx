@@ -31,6 +31,7 @@ const MeetUpCard = ({
             fill
             sizes="width=500, height=400"
             className="object-cover rounded-t-xl"
+            unoptimized
           />
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
