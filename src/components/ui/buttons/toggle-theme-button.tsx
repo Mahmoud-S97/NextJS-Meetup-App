@@ -30,7 +30,7 @@ const ThemeToggle = (): JSX.Element => {
   return (
     <button
       onClick={toggleTheme}
-      className="cursor-pointer bg-black/20 rounded-full px-2 py-1"
+      className="cursor-pointer bg-black/20 rounded-full px-4 py-1"
     >
       {dark ? "🌙 Dark" : "☀️ Light"}
     </button>
